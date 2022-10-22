@@ -3,12 +3,52 @@ const { DB_NAME } = require("../../utils/constants");
 
 const PAGE_LIMIT = 20;
 
+const ACTIVITIES = [
+  {
+    activityType: "post_created",
+    activityDescription: "A new post has been created",
+    post: "how-to-split-a-string-in-javascript340",
+    user: ObjectId("634b18fb9b8b0ef33030b8db"),
+    activityDate: new Date(2022, 10, 07),
+    meta: {
+      url: "/post/how-to-split-a-string-in-javascript340",
+    },
+  },
+  {
+    activityType: "post_created",
+    activityDescription: "A new post has been created",
+    post: "how-to-split-a-string-in-javascript340",
+    user: ObjectId("634b18fb9b8b0ef33030b8db"),
+    activityDate: new Date(2022, 10, 08),
+    meta: {
+      url: "/post/how-to-split-a-string-in-javascript340",
+    },
+  },
+  {
+    activityType: "comment_created",
+    activityDescription: "commented on a post",
+    post: "how-to-split-a-string-in-javascript340",
+    user: ObjectId("634b18fb9b8b0ef33030b8db"),
+    activityDate: new Date(2022, 10, 09),
+    meta: {
+      commentID: {
+        $oid: "634dda94003e3edb2bfb024e",
+      },
+      commentBody: "Nice da!",
+      url: "/post/how-to-split-a-string-in-javascript340#comment-634dda94003e3edb2bfb024e",
+    },
+  },
+];
+
 const getRecentActivities = async (client, page_no) => {
   page_no = parseInt(page_no);
   if (isNaN(page_no)) page_no = 1;
 
   try {
     let db = await client.db(DB_NAME);
+
+    let total_count = await db.collection("activities").countDocuments();
+    let last_page = Math.ceil(total_count / PAGE_LIMIT);
 
     let activities = await db
       .collection("activities")
@@ -17,6 +57,7 @@ const getRecentActivities = async (client, page_no) => {
 
         // Pagination
         { $skip: (page_no - 1) * PAGE_LIMIT },
+
         { $limit: PAGE_LIMIT },
 
         // Fetch for post data
@@ -49,11 +90,14 @@ const getRecentActivities = async (client, page_no) => {
       ])
       .toArray();
 
-    console.log(activities);
-    return { recent_activities: activities };
+    // for (let activity of ACTIVITIES) {
+    //   await addActivity(client, activity);
+    // }
+
+    return { recent_activities: activities, last_page };
   } catch (error) {
     console.error(error);
-    return { recent_activities: [] };
+    return { recent_activities: [], last_page: 0 };
   }
 };
 
