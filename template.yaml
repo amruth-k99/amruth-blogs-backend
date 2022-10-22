@@ -1,0 +1,188 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >-
+  amruth-blogs-backend
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform: AWS::Serverless-2016-10-31
+
+# Resources declares the AWS resources that you want to include in the stack
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Tracing: Active
+  Api:
+    TracingEnabled: True        
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'content-type'"
+      AllowOrigin: "'*'"
+
+Resources:
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # 1. Get All Posts
+  GetAllPostsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/posts.getAllPostsHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Environment:
+        Variables:
+          MONGO_URI: "amruth_blogs"
+
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/posts
+            Method: GET
+
+  # 2. Create Post
+  CreatePostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/posts.createPostHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP post method to add one item to a DynamoDB table.
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          MONGO_URI: "amruth_blogs"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/posts
+            Method: POST
+
+  # 3. Get Post by Slug
+  GetPostBySlugFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/posts.getPostBySlugHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          MONGO_URI: "amruth_blogs"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/post/{slug}
+            Method: GET
+
+  # 4. get Comments By Slug
+  GetCommentsBySlugFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/comments.getCommentsBySlugHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          MONGO_URI: "amruth_blogs"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/comments
+            Method: GET
+
+  # 5. get Comments By Slug
+  AddCommentToPostFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/comments.addCommentToPostHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          MONGO_URI: "amruth_blogs"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/comment
+            Method: POST
+
+  # 6. Get Activities to user
+  GetUserActivitiesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/activities.getUserActivitiesHandler
+      Runtime: nodejs16.x
+      Architectures:
+        - x86_64
+      MemorySize: 128
+      Timeout: 100
+      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
+      Environment:
+        Variables:
+          MONGO_URI: "amruth_blogs"
+
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /api/recent-activity
+            Method: GET
+  # Each Lambda function is defined by properties:
+  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # This is a Lambda function config associated with the source code: put-item.js
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  GetAllPostsFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt GetAllPostsFunction.Arn
+  CreatePostFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt CreatePostFunction.Arn
+  GetPostBySlugFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt GetPostBySlugFunction.Arn
+  GetCommentsBySlugFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt GetCommentsBySlugFunction.Arn
+  AddCommentToPostFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt AddCommentToPostFunction.Arn
+  GetUserActivitiesFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt GetUserActivitiesFunction.Arn
