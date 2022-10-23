@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "7f83cba2-f8a8-49f9-a9aa-0091f305b60a",
+		"name": "HashNode Recent Activites Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23260066"
+	},
+	"item": [
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Fetch Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/posts?page=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Post By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/post/microfrontends:-microservices-for-the-frontend818",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"post",
+								"microfrontends:-microservices-for-the-frontend818"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Comments by Post",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/comments?post_slug=microfrontends:-microservices-for-the-frontend818&page=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "post_slug",
+									"value": "microfrontends:-microservices-for-the-frontend818"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Blog Post 44\",\n    \"content\": \"Contentrrrrrrss\",\n    \"slug\": \"qwertyy-3\",\n    \"tags\": [\n        \"blog1\",\n        \"new-bog2\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/posts",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Amruth2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/user/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "Get Activites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/recent-activity?page=1",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"recent-activity"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Activity",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activity_type\": \"post_created\",\n    \"activity_description\": \"A new post has been created\",\n    \"post\": \"microfrontends:-microservices-for-the-frontend818\",\n    \"user\": \"634b18fb9b8b0ef33030b8db\",\n    \"meta\": {},\n    \"activity_date\": \"2022-10-15T20:39:31.946Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/recent-activity/create",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"recent-activity",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"slug\": \"blog-1\",\n    \"comment\": \"Nice one!\",\n    \"isReply\": false,\n    \"createdBy\": \"634b18fb9b8b0ef33030b8db\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/comment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/api/comments/node.js:-promise-in-depth453",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"comments",
+								"node.js:-promise-in-depth453"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Comment to Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"slug\": \"microfrontends:-microservices-for-the-frontend818\",\n    \"comment\": \"Nice one!\",\n    \"isReply\": false,\n    \"repliedToComment\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/api/posts/comment",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"api",
+								"posts",
+								"comment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
