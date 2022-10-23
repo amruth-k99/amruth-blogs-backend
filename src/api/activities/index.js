@@ -90,10 +90,6 @@ const getRecentActivities = async (client, page_no) => {
       ])
       .toArray();
 
-    // for (let activity of ACTIVITIES) {
-    //   await addActivity(client, activity);
-    // }
-
     return { recent_activities: activities, last_page };
   } catch (error) {
     console.error(error);

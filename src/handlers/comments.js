@@ -41,12 +41,16 @@ exports.addCommentToPostHandler = async (event) => {
   if (response.acknowledged) {
     // add activity in logs
     addActivity(client, {
-      activityType: "post_created",
-      activityDescription: "A new post has been created",
+      activityType: isReply ? "reply_posted" : "comment_created",
+      activityDescription: isReply
+        ? "replied to a post"
+        : "commented on a post",
       user: ObjectId("634b18fb9b8b0ef33030b8db"),
       post: encodeURI(slug),
       meta: {
-        url: `/post/${encodeURI(slug)}`,
+        commentID: response.insertedId,
+        commentBody: comment,
+        url: `/post/${slug}#comment-${response.insertedId}`,
       },
     });
   }
@@ -62,7 +66,7 @@ exports.getCommentsBySlugHandler = async (event) => {
   }
 
   const { page = 1, post_slug } = event.queryStringParameters;
-  
+
   let response = {};
 
   if (!post_slug) {

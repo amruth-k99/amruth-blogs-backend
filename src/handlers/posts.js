@@ -47,7 +47,7 @@ exports.createPostHandler = async (event) => {
     // add activity in logs
     addActivity(client, {
       activityType: "post_created",
-      activityDescription: "A new post has been created",
+      activityDescription: "Wrote an article",
       user: ObjectId("634b18fb9b8b0ef33030b8db"),
       post: encodeURI(slug),
       meta: {

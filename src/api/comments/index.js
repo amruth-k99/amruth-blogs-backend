@@ -75,18 +75,18 @@ const addCommentToPost = async (client, body) => {
         updatedAt: new Date(),
       })
       .then((response) => {
-        addActivity({
-          activityType: isReply ? "reply_posted" : "comment_created",
-          activityDescription: isReply
-            ? "replied to a post"
-            : "commented on a post",
-          post: slug,
-          meta: {
-            commentID: response.insertedId,
-            commentBody: comment,
-            url: `/post/${slug}#comment-${response.insertedId}`,
-          },
-        });
+        // addActivity({
+        //   activityType: isReply ? "reply_posted" : "comment_created",
+        //   activityDescription: isReply
+        //     ? "replied to a post"
+        //     : "commented on a post",
+        //   post: slug,
+        //   meta: {
+        //     commentID: response.insertedId,
+        //     commentBody: comment,
+        //     url: `/post/${slug}#comment-${response.insertedId}`,
+        //   },
+        // });
         console.log(response);
         return response;
       });

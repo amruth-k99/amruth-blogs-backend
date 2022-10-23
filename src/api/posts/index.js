@@ -1,6 +1,4 @@
-const { ObjectId } = require("mongodb");
 const { POSTS_PAGE_LIMIT, DB_NAME } = require("../../utils/constants");
-const { addActivity } = require("../activities");
 const { fetchComments } = require("../comments");
 
 const PAGE_LENGTH = 10;
