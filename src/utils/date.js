@@ -5,6 +5,9 @@ const getDate = () => {
   return `${year}-${month}-${day}`;
 };
 
+/*
+ * @returns {String} time in format hh-mm-ss
+ */
 const getTime = () => {
   const hours = new Date().getHours();
   const minutes = new Date().getMinutes();

@@ -1,5 +1,4 @@
 const { MONGO_URI } = require("../utils/constants");
-const { getAllPosts, createPost, getPostByID } = require("../api/posts");
 const { Response } = require("../utils/response");
 
 // Get the Mongo URI table name from environment variables

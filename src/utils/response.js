@@ -1,3 +1,21 @@
+/**
+ *
+ * @param {*} data
+ * @param {*} statusCode
+ * @returns
+ *
+ *
+ * @example
+ * ```ts
+ * import { Response } from '/src/utils/response';
+ *
+ *   return Response({
+ *    statusCode: 400,
+ *    message: "Some random message",
+ *  });
+ * ```
+ */
+
 const Response = async (data = {}, statusCode = 200) => {
   // All log statements are written to CloudWatch
   console.info(
