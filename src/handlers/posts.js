@@ -5,7 +5,6 @@ const { Response } = require("../utils/response");
 // Get the Mongo URI table name from environment variables
 const { MongoClient, ObjectId } = require("mongodb");
 const { addActivity } = require("../api/activities");
-const { getCommentsToPost } = require("../api/comments");
 let client = new MongoClient(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -68,7 +67,7 @@ exports.getAllPostsHandler = async (event) => {
 
   const { page = 1 } = event.queryStringParameters;
 
-  if (!page) {
+  if ((isNaN(page) || page < 1) && page !== "all") {
     return Response({
       error: "Page number is required",
       statusCode: 400,
@@ -80,7 +79,7 @@ exports.getAllPostsHandler = async (event) => {
 
   try {
     let posts = await getAllPosts(client, page);
-    response = { posts };
+    response = posts;
   } catch (error) {
     console.log(error);
     response = { error: error.message, statusCode: 500 };
@@ -119,30 +118,6 @@ exports.getPostBySlugHandler = async (event) => {
       statusCode: 400,
       error: error.message || "Post not found",
     };
-  }
-
-  return Response(response);
-};
-
-exports.getCommentsBySlugHandler = async (event) => {
-  const { page = 1, post_slug } = event.queryStringParameters;
-  let response = {};
-
-  if (!post_slug) {
-    return Response({
-      statusCode: 400,
-      error: "Post slug is required",
-    });
-  }
-
-  console.info("EVENT received:", event, "\n");
-
-  try {
-    let comments = await getCommentsToPost(client, { post_slug, page });
-    response = comments;
-  } catch (error) {
-    console.log(error);
-    response = { error: error.message, statusCode: 500 };
   }
 
   return Response(response);

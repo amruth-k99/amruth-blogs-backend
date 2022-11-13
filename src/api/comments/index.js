@@ -1,10 +1,7 @@
-const { MongoClient, ObjectId } = require("mongodb");
-const { MONGO_URI, COMMENTS_PAGE_LIMIT } = require("../../utils/constants");
-const { addActivity } = require("../activities");
+const { ObjectId } = require("mongodb");
+const { COMMENTS_PAGE_LIMIT } = require("../../utils/constants");
 
 const fetchComments = async (db, slug, page) => {
-  console.time("fetchComments");
-
   let comments = await db
     .collection("comments")
     .aggregate([
@@ -35,10 +32,13 @@ const fetchComments = async (db, slug, page) => {
     .limit(COMMENTS_PAGE_LIMIT)
     .toArray();
 
-  console.timeEnd("fetchComments");
+  let totalPages = await db.collection("comments").countDocuments({
+    post: slug,
+    isReply: false,
+  });
+  totalPages = Math.ceil(totalPages / COMMENTS_PAGE_LIMIT);
 
-  console.log(comments);
-  return comments;
+  return { comments, totalPages };
 };
 
 const getCommentsToPost = async (client, { post_slug, page = 1 }) => {

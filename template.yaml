@@ -169,20 +169,20 @@ Outputs:
     Description: "API Gateway endpoint URL for Prod stage"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
   GetAllPostsFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Get all posts ARN"
     Value: !GetAtt GetAllPostsFunction.Arn
   CreatePostFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Create post Lambda Function ARN"
     Value: !GetAtt CreatePostFunction.Arn
   GetPostBySlugFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Get Post by ID Lambda Function ARN"
     Value: !GetAtt GetPostBySlugFunction.Arn
   GetCommentsBySlugFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Get comments to a post Lambda Function ARN"
     Value: !GetAtt GetCommentsBySlugFunction.Arn
   AddCommentToPostFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Add Comment to a post Lambda Function ARN"
     Value: !GetAtt AddCommentToPostFunction.Arn
   GetUserActivitiesFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Get User Activities Lambda Function ARN"
     Value: !GetAtt GetUserActivitiesFunction.Arn

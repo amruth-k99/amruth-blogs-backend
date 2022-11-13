@@ -1,4 +1,4 @@
-# POC for Recent Activites Assignment
+# POC for Recent Activities Assignment
 
 ### by Amruth Kuntamalla
 
@@ -10,7 +10,7 @@ This repo consists of the frontend part of the solution hosted on Vercel.
 
 - The project uses SSR and Incremental Static Rendering(ISR) to generate new blogs.
 - Configured for SEO with Open Graph(OG) tags and title tags for all the Static sites generated
-- A user can create a post and commnent to any post
+- A user can create a post and comment to any post
 - A user can check his activities in the homepage grouped by date
 
 ## Tech Stack

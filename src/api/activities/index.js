@@ -48,7 +48,7 @@ const getRecentActivities = async (client, page_no) => {
     let db = await client.db(DB_NAME);
 
     let total_count = await db.collection("activities").countDocuments();
-    let last_page = Math.ceil(total_count / PAGE_LIMIT);
+    let totalPages = Math.ceil(total_count / PAGE_LIMIT);
 
     let activities = await db
       .collection("activities")
@@ -90,10 +90,10 @@ const getRecentActivities = async (client, page_no) => {
       ])
       .toArray();
 
-    return { recent_activities: activities, last_page };
+    return { recent_activities: activities, totalPages };
   } catch (error) {
     console.error(error);
-    return { recent_activities: [], last_page: 0 };
+    return { recent_activities: [], totalPages: 0 };
   }
 };
 

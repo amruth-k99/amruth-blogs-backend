@@ -1,8 +1,6 @@
 const { POSTS_PAGE_LIMIT, DB_NAME } = require("../../utils/constants");
 const { fetchComments } = require("../comments");
 
-const PAGE_LENGTH = 10;
-
 const getPostByID = async (client, slug) => {
   let db = await client.db("amruth_blogs");
 
@@ -38,7 +36,9 @@ const getPostByID = async (client, slug) => {
 };
 
 const getAllPosts = async (client, page_no) => {
+  const getAllPostsFlag = page_no === "all" ? true : false;
   page_no = parseInt(page_no);
+
   if (isNaN(page_no)) page_no = 1;
 
   console.log("post_slug", page_no);
@@ -65,13 +65,25 @@ const getAllPosts = async (client, page_no) => {
             as: "createdBy",
           },
         },
+        ...(getAllPostsFlag
+          ? []
+          : [
+              {
+                $skip: POSTS_PAGE_LIMIT * (page_no - 1),
+              },
+              {
+                $limit: POSTS_PAGE_LIMIT,
+              },
+            ]),
       ])
-      .skip(POSTS_PAGE_LIMIT * (page_no - 1))
-      .limit(POSTS_PAGE_LIMIT)
       .toArray();
 
-    return posts;
+    let totalPages = await db.collection("posts").countDocuments();
+    totalPages = Math.ceil(totalPages / POSTS_PAGE_LIMIT);
+
+    return { posts, totalPages };
   } catch (error) {
+    console.info(error.message);
     return { error: error.message };
   }
 };
